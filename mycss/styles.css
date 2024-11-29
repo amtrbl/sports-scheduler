@@ -1,0 +1,87 @@
+*{
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #f0f0f0;
+    height: 100%;
+}
+
+.planner{
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+
+/* calendar format */
+.calendar-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+    padding: 20px;
+}
+
+/* date inside each box */
+.calendar-day{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    color: #c4c4c4;
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* schedule input of user in the calendar*/
+.schedule{
+    background-color: #212121;
+    color: #fff;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
+    word-break: break-word;
+    font-size: 0.8em;
+    width: 88%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.schedule:hover{
+    background-color: rgb(54, 54, 54);
+}
+
+
+
+
+
+/* make it fully responsive */
+@media screen and (max-width: 1200px) {
+    .calendar-grid{
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media screen and (max-width: 992px) { 
+    .calendar-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .calendar-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .calendar-grid{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
