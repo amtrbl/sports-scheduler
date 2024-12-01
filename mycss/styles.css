@@ -58,6 +58,16 @@ body{
 }
 
 
+.event-link {
+    text-decoration: none; 
+    color: inherit; 
+    cursor: pointer;
+}
+
+.event-link:hover {
+    text-decoration: none; 
+    color: inherit; 
+}
 
 
 
