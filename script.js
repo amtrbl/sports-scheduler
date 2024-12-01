@@ -72,6 +72,7 @@ function generateCalendar() {
         dayBox.id = `day-${day}`;
         calendar.appendChild(dayBox);
     }
+    displayEvents(currentMonth, currentYear);  // make sure current events are displayed after generating the calendar
 }
 
 
@@ -119,29 +120,35 @@ if (window.location.pathname.includes("add-event.html")) {
 
 
 // Display events from sessionStorage on the calendar
-function displayEvents() {
+function displayEvents(currentMonth, currentYear) {
     const events = JSON.parse(sessionStorage.getItem('events')) || [];
 
     events.forEach(event => {
         const eventDate = new Date(event.date);
-        const dayBox = document.getElementById(`day-${eventDate.getDate()}`);
+        const eventMonth = eventDate.getMonth();  // get month of event date
+        const eventYear = eventDate.getFullYear(); // get year of event date
 
-        if (dayBox) {
-            const eventDiv = document.createElement("div");
-            eventDiv.className = "schedule";
+        // only display events for the current month and year
+        if (eventMonth === currentMonth && eventYear === currentYear) {
+            const dayBox = document.getElementById(`day-${eventDate.getDate()}`);
 
-            // only display homeTeam vs awayTeam in calendar
-            const eventDesc = `${event.homeTeam} vs ${event.awayTeam}`;
+            if (dayBox) {
+                const eventDiv = document.createElement("div");
+                eventDiv.className = "schedule";
 
-            // link for each event to open details.html (with date as a parameter)
-            const eventLink = document.createElement("a");
-            eventLink.href = `details.html?date=${event.date}`; 
-            eventLink.textContent = eventDesc;
-            eventLink.classList.add("event-link");
+                // only display homeTeam vs awayTeam in calendar
+                const eventDesc = `${event.homeTeam} vs ${event.awayTeam}`;
 
-            eventDiv.appendChild(eventLink);
-            dayBox.appendChild(eventDiv);
-        }
+                // link for each event to open details.html (with date as a parameter)
+                const eventLink = document.createElement("a");
+                eventLink.href = `details.html?date=${event.date}`; 
+                eventLink.textContent = eventDesc;
+                eventLink.classList.add("event-link");
+
+                eventDiv.appendChild(eventLink);
+                dayBox.appendChild(eventDiv);
+            }
+         }
     });
 }
 
