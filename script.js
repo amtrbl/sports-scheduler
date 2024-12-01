@@ -139,7 +139,7 @@ function displayEvents() {
             eventLink.textContent = eventDesc;
             eventLink.classList.add("event-link");
 
-            eventDiv.appendChild = eventLink;
+            eventDiv.appendChild(eventLink);
             dayBox.appendChild(eventDiv);
         }
     });
