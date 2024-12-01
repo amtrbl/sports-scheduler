@@ -139,7 +139,7 @@ function displayEvents() {
             eventLink.textContent = eventDesc;
             eventLink.classList.add("event-link");
 
-            eventDiv.textContent = eventLink;
+            eventDiv.appendChild = eventLink;
             dayBox.appendChild(eventDiv);
         }
     });
@@ -170,7 +170,7 @@ function loadSportData() {
 
             const jsonEvents = data.data.map(function(event) {
                 return {
-                    date: event.dateVenue, // Directly use event.dateVenue here
+                    date: event.dateVenue, 
                     time: event.timeVenueUTC,
                     sportType: event.sport,
                     stage: event.stage.name,
