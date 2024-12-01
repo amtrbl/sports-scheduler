@@ -46,13 +46,24 @@ if (window.location.pathname.includes("add-event.html")) {
 
         // get event details
         const eventDate = document.getElementById('schedule-date').value;
-        const eventDesc = document.getElementById('schedule-desc').value;
+        const eventTime = document.getElementById('schedule-time').value;
+        const sportType = document.getElementById('sportType-desc').value;
+        const homeTeam = document.getElementById('homeTeam-desc').value;
+        const awayTeam = document.getElementById('awayTeam-desc').value;
+        const stage = document.getElementById('stage-desc').value;
 
         // get existing events from sessionStorage or create an empty array if none
         const events = JSON.parse(sessionStorage.getItem('events')) || [];
 
         // add new event to the events array
-        events.push({ date: eventDate, description: eventDesc });
+        events.push({
+            date: eventDate,
+            time: eventTime,
+            sportType: sportType,
+            homeTeam: homeTeam,
+            awayTeam: awayTeam,
+            stage: stage
+        });
 
         // store updated events array in sessionStorage
         sessionStorage.setItem('events', JSON.stringify(events));
@@ -77,7 +88,11 @@ function displayEvents() {
         if (dayBox) {
             const eventDiv = document.createElement("div");
             eventDiv.className = "schedule";
-            eventDiv.textContent = event.description;
+
+            // only display homeTeam vs awayTeam in calendar
+            const eventDesc = `${event.homeTeam} vs ${event.awayTeam}`;
+
+            eventDiv.textContent = eventDesc;
             dayBox.appendChild(eventDiv);
         }
     });
@@ -116,9 +131,8 @@ function displaySportEvents(data) {
             const awayTeamName = event.awayTeam ? event.awayTeam.name : 'TBD';
             const eventDesc = `${homeTeamName} vs ${awayTeamName}`;
 
-            // Add event description to the eventDiv
+            
             eventDiv.textContent = eventDesc;
-            // Add event to the calendar day box
             dayBox.appendChild(eventDiv);
         }
     });
