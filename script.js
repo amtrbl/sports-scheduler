@@ -54,6 +54,10 @@ function displayEventDetails() {
 
 
 
+// Shift weekdays to Mon - Sun format
+const getDayIndexMondaySunday = (date) => date.getDay() === 0 ? 6 : date.getDay() - 1;
+
+
 // generate calendar
 function generateCalendar() {
     const calendar = document.getElementById('calendar');
@@ -61,7 +65,7 @@ function generateCalendar() {
     
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0); 
-    const firstDayIndex = firstDayOfMonth.getDay();
+    const firstDayIndex = getDayIndexMondaySunday(firstDayOfMonth);
     const totalDays = lastDayOfMonth.getDate();
 
     // display current month & year on the page
