@@ -1,3 +1,5 @@
+let currentMonth = new Date().getMonth(); // default to current month
+let currentYear = new Date().getFullYear(); // default to current year
 
 // index.html functionalities
 // if it's the main page, display the calnedar with all events
@@ -6,7 +8,12 @@ window.onload = function () {
         generateCalendar();
         displayEvents();
         loadSportData();
+    
+    // add event listener for back & next button
+    document.getElementById('prevMonth').addEventListener('click', prevMonth);
+    document.getElementById('nextMonth').addEventListener('click', nextMonth);
     }
+
     // if it's details.html, display the details
     if (window.location.pathname.includes("details.html")) {
         displayEventDetails();
@@ -50,13 +57,15 @@ function displayEventDetails() {
 // generate calendar
 function generateCalendar() {
     const calendar = document.getElementById('calendar');
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth();
-    const currentYear = currentDate.getFullYear();
+    calendar.innerHTML = ''; // clear calendar before regenerating
+    
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0); 
     const firstDayIndex = firstDayOfMonth.getDay();
     const totalDays = lastDayOfMonth.getDate();
+
+    // display current month & year on the page
+    document.getElementById('monthYear').textContent = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${currentYear}`;
 
     // make all days before first day blank
     for (let i = 1; i < firstDayIndex; i++) {
@@ -122,6 +131,11 @@ if (window.location.pathname.includes("add-event.html")) {
 // Display events from sessionStorage on the calendar
 function displayEvents(currentMonth, currentYear) {
     const events = JSON.parse(sessionStorage.getItem('events')) || [];
+    const calendar = document.getElementById('calendar');
+
+    // clear previous events before displaying new ones
+    const eventDivs = document.querySelectorAll('.schedule');
+    eventDivs.forEach(div => div.remove());
 
     events.forEach(event => {
         const eventDate = new Date(event.date);
@@ -203,3 +217,26 @@ function loadSportData() {
         });
 }
 
+
+// month navigation button functionality
+function prevMonth() {
+    if (currentMonth === 0) { // If it's January, go to December of the previous year
+        currentMonth = 11;
+        currentYear--;
+    } else {
+        currentMonth--;
+    }
+    generateCalendar(); // Regenerate the calendar for the previous month
+    displayEvents(currentMonth, currentYear); // Display events for the previous month
+}
+
+function nextMonth() {
+    if (currentMonth === 11) { // If it's December, go to January of the next year
+        currentMonth = 0;
+        currentYear++;
+    } else {
+        currentMonth++;
+    }
+    generateCalendar(); // Regenerate the calendar for the next month
+    displayEvents(currentMonth, currentYear); // Display events for the next month
+}
