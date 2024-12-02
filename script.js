@@ -72,7 +72,7 @@ function generateCalendar() {
     document.getElementById('monthYear').textContent = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${currentYear}`;
 
     // make all days before first day blank
-    for (let i = 1; i < firstDayIndex; i++) {
+    for (let i = 0; i < firstDayIndex; i++) {
         let blankDay = document.createElement("div");
         calendar.appendChild(blankDay);
     }
