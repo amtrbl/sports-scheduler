@@ -86,6 +86,14 @@ function generateCalendar() {
         dayBox.className = "calendar-day";
         dayBox.textContent = day;
         dayBox.id = `day-${day}`;
+
+        // add event listener to each day box
+        dayBox.addEventListener('click', function() {
+            const selectedDate = new Date(currentYear, currentMonth, day);
+            const formattedDate = selectedDate.toISOString().split('T')[0];  // format date to YYYY-MM-DD
+            window.location.href = `add-event.html?date=${formattedDate}`;  // redirect to add-event page with selected date
+        });
+
         calendar.appendChild(dayBox);
     }
     displayEvents(currentMonth, currentYear);  // make sure current events are displayed after generating the calendar
@@ -95,6 +103,14 @@ function generateCalendar() {
 
 // add-event.html logic 
 if (window.location.pathname.includes("add-event.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDate = urlParams.get('date');  // get the date 
+    
+    if (selectedDate) {
+        // set date input field to the selected date
+        document.getElementById('schedule-date').value = selectedDate;
+    }
+
     const scheduleForm = document.getElementById('scheduleForm');
     scheduleForm.addEventListener('submit', function (e) {
         e.preventDefault(); 
