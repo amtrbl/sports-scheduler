@@ -89,7 +89,7 @@ function generateCalendar() {
 
         // add event listener to each day box
         dayBox.addEventListener('click', function() {
-            const selectedDate = new Date(currentYear, currentMonth, day);
+            const selectedDate = new Date(Date.UTC(currentYear, currentMonth, day));
             const formattedDate = selectedDate.toISOString().split('T')[0];  // format date to YYYY-MM-DD
             window.location.href = `add-event.html?date=${formattedDate}`;  // redirect to add-event page with selected date
         });
