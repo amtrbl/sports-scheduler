@@ -6,8 +6,9 @@ let currentYear = new Date().getFullYear(); // default to current year
 window.onload = function () {
     if (window.location.pathname.includes("index.html")) {
         generateCalendar();
-        displayEvents();
         loadSportData();
+        displayEvents();
+        
     
     // add event listener for back & next button
     document.getElementById('prevMonth').addEventListener('click', prevMonth);
@@ -26,10 +27,10 @@ function displayEventDetails() {
 
     // get event ID (date) from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const eventDate = urlParams.get('date'); 
+    const eventIndex = parseInt(urlParams.get('id'), 10); 
 
-    // find event with matching date
-    const event = events.find(e => e.date === eventDate);
+    // find event by index
+    const event = events[eventIndex];
 
     // HTML structure for event details
     if (event) {
@@ -157,9 +158,9 @@ function displayEvents(currentMonth, currentYear) {
                 // only display homeTeam vs awayTeam in calendar
                 const eventDesc = `${event.homeTeam} vs ${event.awayTeam}`;
 
-                // link for each event to open details.html (with date as a parameter)
+                // link for each event to open details.html (with index as a parameter)
                 const eventLink = document.createElement("a");
-                eventLink.href = `details.html?date=${event.date}`; 
+                eventLink.href = `details.html?id=${index}`; // use index as identifier
                 eventLink.textContent = eventDesc;
                 eventLink.classList.add("event-link");
 
