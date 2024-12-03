@@ -142,7 +142,7 @@ function displayEvents(currentMonth, currentYear) {
     const eventDivs = document.querySelectorAll('.schedule');
     eventDivs.forEach(div => div.remove());
 
-    events.forEach(event => {
+    events.forEach((event, index) => {
         const eventDate = new Date(event.date);
         const eventMonth = eventDate.getMonth();  // get month of event date
         const eventYear = eventDate.getFullYear(); // get year of event date
@@ -179,6 +179,7 @@ function loadSportData() {
 
     if (isJsonDataLoaded) {
         console.log("JSON data already loaded, skipping fetch.");
+        displayEvents();
         return; // don't load JSON data if it's already in sessionStorage
     }
 
