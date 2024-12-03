@@ -7,7 +7,7 @@ window.onload = function () {
     if (window.location.pathname.includes("index.html")) {
         generateCalendar();
         loadSportData();
-        displayEvents();
+        displayEvents(currentMonth, currentYear);
         
     
     // add event listener for back & next button
@@ -24,6 +24,8 @@ window.onload = function () {
 // sisplay details for selected event on details.html
 function displayEventDetails() {
     const events = JSON.parse(sessionStorage.getItem('events')) || [];
+
+    // console.log("Events in sessionStorage:", events);
 
     // get event ID (date) from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -136,6 +138,12 @@ if (window.location.pathname.includes("add-event.html")) {
 // Display events from sessionStorage on the calendar
 function displayEvents(currentMonth, currentYear) {
     const events = JSON.parse(sessionStorage.getItem('events')) || [];
+
+    // // log the current month and year
+    // console.log("Displaying events for: " + currentMonth + "/" + currentYear);
+    // // log the events in sessionStorage
+    // console.log("Events from sessionStorage:", events);
+
     const calendar = document.getElementById('calendar');
 
     // clear previous events before displaying new ones
@@ -216,7 +224,7 @@ function loadSportData() {
             // mark the JSON data as loaded in sessionStorage
             sessionStorage.setItem('isJsonDataLoaded', true);
 
-            displayEvents();
+            displayEvents(currentMonth, currentYear);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -232,6 +240,9 @@ function prevMonth() {
     } else {
         currentMonth--;
     }
+
+    // console.log("Prev Month, after update, currentMonth:", currentMonth, "currentYear:", currentYear);
+
     generateCalendar(); // Regenerate the calendar for the previous month
     displayEvents(currentMonth, currentYear); // Display events for the previous month
 }
@@ -243,6 +254,9 @@ function nextMonth() {
     } else {
         currentMonth++;
     }
+
+    // console.log("Next Month, after update, currentMonth:", currentMonth, "currentYear:", currentYear);
+
     generateCalendar(); // Regenerate the calendar for the next month
     displayEvents(currentMonth, currentYear); // Display events for the next month
 }
