@@ -79,6 +79,14 @@ body{
     color: inherit; 
 }
 
+
+/* Make input fields (add-event page) clickable */
+input[type="date"],
+input[type="time"] {
+    cursor: pointer;
+}
+
+
 /* calendar navigation */
 .calendar-navigation {
     display: flex;
