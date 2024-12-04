@@ -72,7 +72,7 @@ function generateCalendar() {
     const totalDays = lastDayOfMonth.getDate();
 
     // display current month & year on the page
-    document.getElementById('monthYear').textContent = `${firstDayOfMonth.toLocaleString('default', { month: 'long' })} ${currentYear}`;
+    document.getElementById('monthYear').textContent = `${firstDayOfMonth.toLocaleString('en-US', { month: 'long' })} ${currentYear}`;
 
     // make all days before first day blank
     for (let i = 0; i < firstDayIndex; i++) {
