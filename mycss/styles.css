@@ -70,6 +70,15 @@ body{
     color: inherit; 
 }
 
+/* calendar navigation */
+.calendar-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+
 
 
 /* make it fully responsive */
