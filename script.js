@@ -27,7 +27,7 @@ function displayEventDetails() {
 
     // console.log("Events in sessionStorage:", events);
 
-    // get event ID (date) from URL
+    // get event index from URL
     const urlParams = new URLSearchParams(window.location.search);
     const eventIndex = parseInt(urlParams.get('id'), 10); 
 
@@ -49,6 +49,34 @@ function displayEventDetails() {
         
         // inject the content into event details div
         eventDetailsDiv.innerHTML = eventContent;
+
+        // Edit button
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit Event";
+        editButton.classList.add("edit-btn");
+        editButton.addEventListener('click', function() {
+            // redirect to add-event.html with the event index in the URL
+            window.location.href = `add-event.html?id=${eventIndex}`;
+        });
+
+        // delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete Event";
+        deleteButton.classList.add("delete-btn");
+        deleteButton.addEventListener('click', function() {
+            // Remove event from sessionStorage
+            events.splice(eventIndex, 1);
+            // save the updated events array to sessionStorage
+            sessionStorage.setItem('events', JSON.stringify(events));
+
+            // Redirect back to index.html 
+            window.location.href = 'index.html';
+        });
+
+        // Append the buttons to the event details section
+        eventDetailsDiv.appendChild(editButton);
+        eventDetailsDiv.appendChild(deleteButton);
+
     } else {
         // if no event is found
         document.getElementById('eventDetails').innerHTML = "<p>No event found for this date.</p>";
@@ -111,6 +139,26 @@ if (window.location.pathname.includes("add-event.html")) {
         document.getElementById('schedule-date').value = selectedDate;
     }
 
+     // check if we are editing an existing event (from details page)
+     const eventIndex = urlParams.get('id');  // check if there's an index in URL
+
+     if (eventIndex) {
+        // Fetch event from sessionStorage 
+        const events = JSON.parse(sessionStorage.getItem('events')) || [];
+        const event = events[eventIndex];  // get event data by index
+        
+        if (event) {
+            // pre-fill the form fields with the event data
+            document.getElementById('schedule-date').value = event.date;
+            document.getElementById('schedule-time').value = event.time;
+            document.getElementById('sportType-desc').value = event.sportType;
+            document.getElementById('homeTeam-desc').value = event.homeTeam;
+            document.getElementById('awayTeam-desc').value = event.awayTeam;
+            document.getElementById('stage-desc').value = event.stage;
+        }
+    }
+
+
     const scheduleForm = document.getElementById('scheduleForm');
     scheduleForm.addEventListener('submit', function (e) {
         e.preventDefault(); 
@@ -129,15 +177,28 @@ if (window.location.pathname.includes("add-event.html")) {
         // get existing events from sessionStorage or create an empty array if none
         const events = JSON.parse(sessionStorage.getItem('events')) || [];
 
-        // add new event to the events array
-        events.push({
-            date: formattedDate,
-            time: eventTime,
-            sportType: sportType,
-            homeTeam: homeTeam,
-            awayTeam: awayTeam,
-            stage: stage
-        });
+
+        if (eventIndex) {
+            // editing existing event
+            events[eventIndex] = {
+                date: formattedDate,
+                time: eventTime,
+                sportType: sportType,
+                homeTeam: homeTeam,
+                awayTeam: awayTeam,
+                stage: stage
+            };
+        } else {
+            // add new event to the events array
+            events.push({
+                date: formattedDate,
+                time: eventTime,
+                sportType: sportType,
+                homeTeam: homeTeam,
+                awayTeam: awayTeam,
+                stage: stage
+            });
+        }
 
         // store updated events array in sessionStorage
         sessionStorage.setItem('events', JSON.stringify(events));
